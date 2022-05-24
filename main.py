@@ -6,21 +6,20 @@ from model import Model
 import data
 
 SAVE_DIR = "ADD SAVE DIR!!!"
-PROJECT_NAME = "ADD WANDB PROJECT NAME!!!"
-PROJECT_ENTITY = "ADD WANDB ENTITY!!!"
+PROJECT_NAME = "mnist"
+PROJECT_ENTITY = "zackankner"
 
 
 def train(args):
     pl.seed_everything(args.seed)
 
-    save_name = args.model_name + "-trial-" + args.trial
-
     logger = pl.loggers.WandbLogger(project=PROJECT_NAME,
                                     entity=PROJECT_ENTITY,
-                                    name=save_name)
+                                    name=args.model_name)
 
     callbacks = [
-        pl.callbacks.ModelCheckpoint(dirpath=os.path.join(SAVE_DIR, save_name),
+        pl.callbacks.ModelCheckpoint(dirpath=os.path.join(
+            SAVE_DIR, args.model_name),
                                      every_n_epochs=args.save_freq)
     ]
 
